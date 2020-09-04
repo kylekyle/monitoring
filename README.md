@@ -7,43 +7,51 @@ import monitoring from 'monitoring';
 
 const monitor = monitoring(document.body);
 
+// watch for new elements added to the DOM
 monitor.added('div', div => console.log('div added:', div));
 
+// watch for elements removed from the DOM
 monitor.removed('.ad', ad => console.log('advert removed:', ad));
 
+// watch for elements to become visible on the page
+// what is means to be "visible" is compilicated, details here:
+// https://developers.google.com/web/updates/2019/02/intersectionobserver-v2
 monitor.appeared('#content', content => console.log('content is visible:', content));
 
+// watch for elements that are no longer visible on the page
 monitor.disappeared('img', img => console.log('img is no longer visible:', img));
 
+// watch for when elements are resized
 monitor.resized('textarea', textarea => console.log('textarea resized:', textarea));
 ```
 
-## Creating monitors
+## Getting callback details
 
-Since monitors reuse their observers, to avoid declaring new monitors for the same element. For example:
+Callbacks also recieve the observer entry that triggered the callback. This table shows the type of entry each methods recieves:
+
+| Method | Entry type |
+| ------ | ---------- |
+| `added` | [MutationObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverEntry) |
+| `removed` | [MutationObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverEntry) |
+| `appeared` | [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) |
+| `disappeared` | [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) |
+| `resized` | [ResizeObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) |
+
+Here are some examples of how the entry information can be used: 
 
 ```javascript
-// this only uses one monitor for two callback - do this :-)
 const monitor = monitoring(document.body);
-monitor.added('div.my_class', div => console.log('my_class added');
-monitor.removed('div.my_class', div => console.log('my_class removed');
 
-// this uses two monitors, one for each callback - don't do this :-(
-monitoring(document.body).added('div.my_class', div => console.log('my_class added');
-monitoring(document.body).removed('div.my_class', div => console.log('my_class removed');
-```
+monitor.added('div', (div, entry) => {
+  console.log(`div added along with ${entry.addedNodes.length} other nodes`);
+});
 
-## IFrames
+monitor.appeared('img', (img, entry) => {
+  console.log(`An image is ${entry.intersectionRatio*100}% visible`);
+});
 
-Monitors support an `iframes` option to include monitoring elements within iframes of the same origin. For example: 
-
-```javascript
-const monitor = monitoring(document.body, {iframes: true});
-
-monitor.added('div', div => {
-  if (div.ownerDocument != document) {
-    console.log('new div in an iframe!');
-  }
+monitor.resized('textarea', (textarea, entry) => {
+  console.log(`textarea is now ${entry.contentRect.width} pixels wide`);
 });
 ```
 
@@ -83,6 +91,20 @@ monitor.added('div', div => {
 });
 ```
 
+## IFrames
+
+Monitors support an `iframes` option to include monitoring elements within iframes of the same origin. For example: 
+
+```javascript
+const monitor = monitoring(document.body, {iframes: true});
+
+monitor.added('div', div => {
+  if (div.ownerDocument != document) {
+    console.log('new div in an iframe!');
+  }
+});
+```
+
 ## Existing elements
 
 By default, the `added` method will return all existing elements in the DOM that match the given selector and monitor for new ones. You can ignore existing elements by setting the `existing` option to `false`: 
@@ -92,37 +114,21 @@ const monitor = monitoring(document.body);
 monitor.added('.my_class', my_callback, {existing: false});
 ```
 
-## Getting callback details
-
-Callbacks also recieve the observer entry that triggered the callback. This table shows they type of entry each methods recieves:
-
-| Method | Entry type |
-| ------ | ---------- |
-| `added` | [MutationObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverEntry) |
-| `removed` | [MutationObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverEntry) |
-| `appeared` | [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) |
-| `disappeared` | [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) |
-| `resized` | [ResizeObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) |
-
-Here are some examples of how the entry information can be used: 
-
-```javascript
-const monitor = monitoring(document.body);
-
-monitor.added('div', (div, entry) => {
-  console.log(`div added along with ${entry.addedNodes.length} other nodes`);
-});
-
-monitor.appeared('img', (img, entry) => {
-  console.log(`An image is ${entry.intersectionRatio*100}% visible`);
-});
-
-monitor.resized('textarea', (textarea, entry) => {
-  console.log(`textarea is now ${entry.contentRect.width} pixels wide`);
-});
-```
 
 ## Performance
+
+Monitors reuse their observers so you should avoid declaring new monitors for the same element. For example:
+
+```javascript
+// this only uses one monitor for two callback - do this :-)
+const monitor = monitoring(document.body);
+monitor.added('div.my_class', div => console.log('my_class added');
+monitor.removed('div.my_class', div => console.log('my_class removed');
+
+// this uses two monitors, one for each callback - don't do this :-(
+monitoring(document.body).added('div.my_class', div => console.log('my_class added');
+monitoring(document.body).removed('div.my_class', div => console.log('my_class removed');
+```
 
 Observers were designed to be an efficient alternative to polling the DOM. However, monitoring large chunks of the DOM, like `document` or `document.body` is still expensive. I recommend monitoring the smallest portion of the DOM necessary and cancelling as soon as the monitor is no longer needed. 
 
