@@ -2,11 +2,12 @@
   "name": "monitoring",
   "version": "1.0.0",
   "description": "An efficient, simple, and lightweight library to watch the DOM for elements added, removed, appeared, disappeared, or resized.",
+  "homepage": "https://github.com/kylekyle/monitoring",
   "main": "src/index.js",
   "scripts": {
     "build": "parcel build src/index.js -o monitoring-$npm_package_version.min.js --no-source-maps"
   },
-  "author": "Kyle King",
+  "author": "Kyle King <kylejking@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
