@@ -14,7 +14,7 @@ monitor.added('div', div => console.log('div added:', div));
 monitor.removed('.ad', ad => console.log('advert removed:', ad));
 
 // watch for elements to become visible on the page
-// what is means to be "visible" is compilicated, details here:
+// what it means to be "visible" is complicated, details here:
 // https://developers.google.com/web/updates/2019/02/intersectionobserver-v2
 monitor.appeared('#content', content => console.log('content is visible:', content));
 
@@ -57,7 +57,7 @@ monitor.resized('textarea', (textarea, entry) => {
 
 ## Stopping monitors
 
-You can cancel a monitor by calling its `cancel` method. This kills all callbacks registered against that monitor: 
+You can cancel a monitor by calling its `cancel` method. This cancels all callbacks registered against that monitor: 
 
 ```javascript
 const monitor = monitoring(document.body);
@@ -79,7 +79,7 @@ const divRemoved = monitor.added('div', console.log);
 divAdded.cancel(); 
 ```
 
-You can also cancel by returning `false` from within the callback. **Note:** Your callback must return `false`, not a falsey value like `null` or `undefined`. 
+Finally, you can cancel by returning `false` from within the callback. **Note:** Your callback must return `false`, not a falsey value like `null` or `undefined`. 
 
 ```javascript
 const monitor = monitoring(document.body);
@@ -114,7 +114,6 @@ const monitor = monitoring(document.body);
 monitor.added('.my_class', my_callback, {existing: false});
 ```
 
-
 ## Performance
 
 Monitors reuse their observers so you should avoid declaring new monitors for the same element. For example:
@@ -132,7 +131,7 @@ monitoring(document.body).removed('div.my_class', div => console.log('my_class r
 
 Observers were designed to be an efficient alternative to polling the DOM. However, monitoring large chunks of the DOM, like `document` or `document.body` is still expensive. I recommend monitoring the smallest portion of the DOM necessary and cancelling as soon as the monitor is no longer needed. 
 
-Here is an example of using monitors to find more specific elements to monitor:
+Here is an example of using a monitor to find more specific elements for monitoring:
 
 ```javascript
 // monitor the document body for a #content div
