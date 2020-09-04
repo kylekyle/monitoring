@@ -1,7 +1,6 @@
+import monitoring from './monitoring';
 
-import Monitor from './monitor';
-
-Monitor.addModule(function(target, options) {
+monitoring.addModule(function(target, options) {
   const resizeMonitors = [];
 
   const resizes = new ResizeObserver(entries => {
@@ -19,7 +18,7 @@ Monitor.addModule(function(target, options) {
     });
   });
 
-  const addResizeMonitor = function(monitor) {
+  const addResizeMonitor = (monitor) => {
     resizeMonitors.push(monitor);
 
     return {
@@ -27,7 +26,7 @@ Monitor.addModule(function(target, options) {
     };
   }
 
-  const removeResizeMonitor = function(monitor) {
+  const removeResizeMonitor = (monitor) => {
     const index = resizeMonitors.indexOf(monitor);
 
     if (index > -1) {
@@ -46,7 +45,7 @@ Monitor.addModule(function(target, options) {
     }
   }
 
-  this.resized = function(selector, callback) {
+  this.resized = (selector, callback) => {
     const nodes = [];
 
     const mutationMonitor = this.added(selector, node => {

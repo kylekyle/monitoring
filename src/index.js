@@ -1,6 +1,6 @@
 import './resizes';
 import './mutations';
 import './intersections';
-import Monitor from './monitor';
+import monitoring from './monitoring';
 
-export default (...params) => new Monitor(...params);
+export default monitoring;

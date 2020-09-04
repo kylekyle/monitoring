@@ -1,6 +1,6 @@
-import Monitor from './monitor';
+import monitoring from './monitoring';
 
-Monitor.addModule(function(target, options) {
+monitoring.addModule(function(target, options) {
   const intersectMonitors = [];
 
   const intersections = new IntersectionObserver(entries => {
@@ -18,7 +18,7 @@ Monitor.addModule(function(target, options) {
     });
   });
 
-  const addIntersectMonitor = function(monitor) {
+  const addIntersectMonitor = (monitor) => {
     intersectMonitors.push(monitor);
 
     return {
@@ -26,7 +26,7 @@ Monitor.addModule(function(target, options) {
     };
   }
 
-  const removeIntersectMonitor = function(monitor) {
+  const removeIntersectMonitor = (monitor) => {
     const index = intersectMonitors.indexOf(monitor);
 
     if (index > -1) {
@@ -45,7 +45,7 @@ Monitor.addModule(function(target, options) {
     }
   }
 
-  const intersect = function(selector, callback, entryTest) {
+  const intersect = (selector, callback, entryTest) => {
     const nodes = [];
 
     const mutationMonitor = this.added(selector, node => {
@@ -62,11 +62,11 @@ Monitor.addModule(function(target, options) {
     });
   }
 
-  this.appeared = function(selector, callback) {
+  this.appeared = (selector, callback) => {
     return intersect(selector, callback, entry => entry.isIntersecting);
   }
 
-  this.disappeared = function(selector, callback) {
+  this.disappeared = (selector, callback) => {
     return intersect(selector, callback, entry => !entry.isIntersecting);
   }
 

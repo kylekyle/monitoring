@@ -1,6 +1,6 @@
-import Monitor from './monitor';
+import monitoring from './monitoring';
 
-Monitor.addModule(function(target, options) {
+monitoring.addModule(function(target, options) {
   const mutationMonitors = [];
 
   const mutations = new MutationObserver(entries => {
