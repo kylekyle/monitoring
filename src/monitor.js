@@ -1,8 +1,10 @@
+const modules = [];
+
 export default class Monitor {
-  static modules = [];
+  static addModule = module => modules.push(module);
 
   constructor(target, options={}) {
-    this._cancelCallbacks = Monitor.modules.map(module => 
+    this._cancelCallbacks = modules.map(module => 
       module.bind(this)(target, options)
     );
   }

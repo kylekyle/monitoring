@@ -1,7 +1,7 @@
 
 import Monitor from './monitor';
 
-Monitor.modules.push(function(target, options) {
+Monitor.addModule(function(target, options) {
   const resizeMonitors = [];
 
   const resizes = new ResizeObserver(entries => {
