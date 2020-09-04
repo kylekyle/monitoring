@@ -1,6 +1,6 @@
 # Monitoring
 
-An simple, efficient, and lightweight library to monitor the DOM for when elements are added, removed, have appeared, disappeared, or are resized. Internally, this library uses the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver), and [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) APIs. 
+A simple, efficient, and lightweight ES module to monitor the DOM for when elements are added, removed, have appeared, have disappeared, or are resized. Internally, this library uses the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver), and [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) APIs. 
 
 ```javascript
 import monitoring from 'monitoring';
@@ -13,8 +13,8 @@ monitor.added('div', div => console.log('div added:', div));
 // watch for elements removed from the DOM
 monitor.removed('.ad', ad => console.log('advert removed:', ad));
 
-// watch for elements to become visible on the page
-// what it means to be "visible" is complicated, details here:
+// watch for elements to become appear on the page
+// what it means to appear or be visible is complicated, details here:
 // https://developers.google.com/web/updates/2019/02/intersectionobserver-v2
 monitor.appeared('#content', content => console.log('content is visible:', content));
 
@@ -23,6 +23,25 @@ monitor.disappeared('img', img => console.log('img is no longer visible:', img))
 
 // watch for when elements are resized
 monitor.resized('textarea', textarea => console.log('textarea resized:', textarea));
+```
+
+## Installation
+
+Add to your project using [NPM](https://npmjs.com):
+
+```bash
+$ npm install monitoring --save
+```
+
+You can add `monitoring` directly in your site or download the latest minified version from [jsdelivr](https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-1.0.1.min.js):
+
+```html
+<script type="module">
+  import monitoring from 'https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-1.0.1.min.js';
+  
+  const monitor = monitoring(document.body);
+  ...
+</script>
 ```
 
 ## Getting callback details
