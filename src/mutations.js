@@ -35,20 +35,26 @@ monitoring.addModule(function(target, options) {
   // https://bit.ly/iframe-loaded
   const loaded = (iframe, callback) => {
     if (accessible(iframe)) {
-      var src = iframe.src || "about:blank";
-      var location = iframe.contentWindow.location.href;
-      var ready = iframe.contentDocument.readyState === "complete";
+      const blank = "about:blank";
+      const src = iframe.src.trim();
+      const href = iframe.contentWindow.location.href;
+      const ready = iframe.contentDocument.readyState === "complete";
 
-      if (ready && src == location) {
-        callback(iframe.contentDocument);
-      } else {
-        var load = () => {  
-          if (accessible(iframe)) {
-            callback(iframe.contentDocument);
-          }
-          iframe.removeEventListener('load', load);
+      const load = () => {  
+        if (accessible(iframe)) {
+          callback(iframe.contentDocument);
         }
-        iframe.addEventListener('load', load)    
+        iframe.removeEventListener('load', load);
+      }
+
+      if (ready) {
+        if(href === blank && src !== blank && src !== "") {      
+          iframe.addEventListener('load', load);
+        } else {
+          callback(iframe.contentDocument);
+        }
+      } else {
+        iframe.addEventListener('load', load);
       }
     }
   }
