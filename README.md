@@ -33,11 +33,11 @@ Add to your project using [NPM](https://npmjs.com):
 $ npm install monitoring --save
 ```
 
-You can add `monitoring` directly in your site or download the latest minified version from [jsdelivr](https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-1.0.3.min.js):
+You can add `monitoring` directly in your site or download the latest minified version from [jsdelivr](https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-latest.min.mjs):
 
 ```html
 <script type="module">
-  import monitoring from 'https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-1.0.3.min.js';
+  import monitoring from 'https://cdn.jsdelivr.net/npm/monitoring/dist/monitoring-latest.min.mjs';
   
   const monitor = monitoring(document.body);
   ...

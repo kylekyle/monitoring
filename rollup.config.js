@@ -6,7 +6,7 @@ export default {
   output: [
     {
       plugins: [terser()],
-      file: `dist/monitoring-${version}.min.mjs`,
+      file: `dist/monitoring-latest.min.mjs`,
     }
   ],
 };
