@@ -1,5 +1,8 @@
 import { version } from './package.json';
 import { terser } from 'rollup-plugin-terser';
+// import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy'
+
 
 export default {
   input: 'src/index.js',
@@ -9,4 +12,15 @@ export default {
       file: `dist/monitoring-latest.min.mjs`,
     }
   ],
-};
+  plugins: [
+    copy({
+      targets: [
+        {
+          src: 'src/index.d.ts',
+          dest: 'dist',
+          rename: 'monitoring-latest.d.ts'
+        }
+      ]
+    })
+  ]
+}
