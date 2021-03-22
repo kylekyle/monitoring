@@ -1,6 +1,5 @@
 import { version } from './package.json';
 import { terser } from 'rollup-plugin-terser';
-// import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy'
 
 
