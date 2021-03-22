@@ -1,4 +1,4 @@
-declare module 'monitoring' {
+declare module '@kensingtontech/monitoring' {
 
   export interface MonitoringOptions {
     iframes?: boolean;

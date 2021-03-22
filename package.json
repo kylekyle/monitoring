@@ -1,6 +1,6 @@
 {
   "name": "@kensingtontech/monitoring",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An efficient, simple, and lightweight library to watch the DOM for elements added, removed, appeared, disappeared, or resized.",
   "homepage": "https://github.com/kylekyle/monitoring",
   "main": "dist/monitoring-latest.min.mjs",
